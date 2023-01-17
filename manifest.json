@@ -4,7 +4,11 @@
   "description": "Base Level Extension",
   "version": "1.0",
   "action": {
+<<<<<<< HEAD
     "default_popup": "hello.html",
+=======
+    "default_popup": "popup.html",
+>>>>>>> 9f2f3de2ec4fdd6840c5b005130563a1beedf4d3
     "default_icon": "images/icon.png"
   }
 }
