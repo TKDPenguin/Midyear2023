@@ -1,6 +1,20 @@
 {
-  "dependencies": {
-    "chrome-types": "^0.1.162",
-    "typescript": "^4.9.4"
+  "name": "testingwebpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack/webpack.config.js"
+  }, 
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chrome": "^0.0.208",
+    "copy-webpack-plugin": "^11.0.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }
