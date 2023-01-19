@@ -5,10 +5,10 @@
 //   console.log('Stored name: ' + value.name);
 // });
 
-export let data: string = "";
+export let data: string[][] = [];
 
 export function clearData() {
-    data = "";
+    data = [];
 }
 
 // Call when an input is changed
@@ -22,6 +22,7 @@ export function updateData(table: HTMLTableElement) {
         //gets cells of current row
         let items = table.rows.item(i) as HTMLTableRowElement;
         let cells = items.cells;
+        let rowData: string[] = new Array(cells.length);
 
         //gets amount of cells of current row
         let cellLength: number = cells.length;
@@ -34,10 +35,10 @@ export function updateData(table: HTMLTableElement) {
                 let key: string = cellVal.cellIndex.toString() as string;
                 const inpEl = elements[0] as HTMLInputElement;
                 console.log(`we are adding ${inpEl.value} to data ${data}`);
-                data += inpEl.value;
-                data += " ";
+                rowData[cellVal.cellIndex] = inpEl.value;
             }
         }
+        data.push(rowData);
     }
     console.log("our current data is " + data);
     chrome.storage.sync.set({"data": data });
