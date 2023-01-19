@@ -8,7 +8,7 @@
 export let data: string[][] = [];
 
 export function clearData() {
-    data = [];
+    data = new Array(0);
 }
 
 // Call when an input is changed
@@ -22,7 +22,7 @@ export function updateData(table: HTMLTableElement) {
         //gets cells of current row
         let items = table.rows.item(i) as HTMLTableRowElement;
         let cells = items.cells;
-        let rowData: string[] = new Array(cells.length);
+        let rowData: string[] = new Array(0);
 
         //gets amount of cells of current row
         let cellLength: number = cells.length;
@@ -35,19 +35,25 @@ export function updateData(table: HTMLTableElement) {
                 let key: string = cellVal.cellIndex.toString() as string;
                 const inpEl = elements[0] as HTMLInputElement;
                 console.log(`we are adding ${inpEl.value} to data ${data}`);
-                rowData[cellVal.cellIndex] = inpEl.value;
+                rowData.push(inpEl.value);
             }
         }
         data.push(rowData);
     }
-    console.log("our current data is " + data);
+    printData(data);
     chrome.storage.sync.set({"data": data });
-    console.log("our current data is " + data);
     chrome.storage.sync.get(["data"]).then((result) => {
         console.log(`Value is currently ${result["data"]}`);
     });
 }
 
+function printData(data: string[][]){
+    for(let i = 0; i < data.length; i++){
+        for (let j = 0; j < data[i].length; j++){
+            console.log(data[i][j]);
+        }
+    }
+}
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
     for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
