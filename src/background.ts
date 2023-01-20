@@ -28,6 +28,49 @@ export function getData() {
 
 }
 
+export function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
+    let rowLength = add.rows.length;
+
+    for (let i = 0; i < rowLength; i++) {
+        //gets cells of current row
+        let items = add.rows.item(i) as HTMLTableRowElement;
+        let cells = items.cells;
+        let rowData: string[] = new Array(0);
+
+        //gets amount of cells of current row
+        let cellLength: number = cells.length;
+
+        //loops through each cell in current row
+        for (var j = 0; j < cellLength-1; j++) {
+            let cellVal = cells.item(j) as HTMLTableCellElement;
+            let elements = cellVal.getElementsByTagName("input");
+            if (elements[0] != null) {
+                const inpEl = elements[0] as HTMLInputElement;
+                console.log("we are in AddTableRows and ")
+                console.log(`we are adding ${inpEl.value} to data ${data}`);
+                rowData.push(inpEl.value);
+            }
+        }
+        data.push(rowData);
+
+        let rowLength = table.rows.length;
+
+        let row = table.insertRow(rowLength);
+        console.log("inserting row to " + rowLength)
+        let cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(2);
+        let cell4 = row.insertCell(3);
+
+        cell1.innerHTML = `<input type="text" value="${rowData[0]}">`;
+        console.log("cell1 = " + cell1.innerHTML);
+        cell2.innerHTML = `<input type="text" value="${rowData[1]}">`;
+        console.log("cell2 = " + cell2.innerHTML);
+        cell3.innerHTML = `<input type="date" value="${rowData[2]}">`;
+        console.log("cell3 = " + cell3.innerHTML);
+        cell4.innerHTML = `<button>Done</button>`;
+    }
+}
 
 export function updateHTML(table: HTMLTableElement) {
     const rowLength = table.rows.length;
