@@ -8,21 +8,38 @@
 const table = document.querySelector("table") as HTMLTableElement;
 
 let rowLength = table.rows.length;
-import { data, clearData, updateData } from "./background";
+import { getData, data, clearData, updateData, updateHTML, printData} from "./background";
 
-chrome.storage.sync.get("data").then((result) => {
-    if (result["data"] == "") {
-        // first time creating data 
-        console.log("data is empty");
-    }
-    // not empty... there for we need to load the inputs with info
-    else {
-        console.log("data is not empty");
-    }
-});
+getData();
 
-startData();
-function startData() {
+console.log("data btw:");
+printData(data);
+if (data.length == 0){
+    console.log("data is empty, so we need to update the data");
+    updateData(table);
+}
+else {
+    console.log("data is not empty, so lets instead update our HTML");
+    updateHTML(table);
+}
+
+// chrome.storage.sync.get("data").then((result) => {
+//     console.log("result[data]: " + result["data"]);
+//     if (result["data"].length == 0) {
+//         // first time creating data 
+//         console.log("data is empty");
+//         updateData(table);
+//     }
+//     // not empty... there for we need to load the inputs with info
+//     else {
+//         console.log("data is not empty");
+//         printData(data);
+//         updateHTML(table);
+//     }
+// });
+
+addListeners();
+function addListeners() {
     for (let i = 0; i < rowLength; i++) {
         //gets cells of current row
         let items = table.rows.item(i) as HTMLTableRowElement;
@@ -36,17 +53,16 @@ function startData() {
             let cellVal = cells.item(j) as HTMLTableCellElement;
             let elements = cellVal.getElementsByTagName("input");
             if (elements[0] != null) {
-                let key: string = cellVal.cellIndex.toString() as string;
                 const inpEl = elements[0] as HTMLInputElement;
                 inpEl.addEventListener("change", (event) => {
                     updateData(table);
-                    // somehow change data based on our thingy
-                    // data.concat(inpEl.value);
-                    // chrome.storage.sync.set({ "data": data });
                 });
             }
         }
     }
+    
+    console.log("data after adding listeners");
+    printData(data);
 }
 
 console.log("data is " + data);
