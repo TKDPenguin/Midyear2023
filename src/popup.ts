@@ -6,8 +6,9 @@ let localData: string[][] = [];
 
 const table = document.querySelector("table") as HTMLTableElement;
 
-fetchData();
-addListeners();
+await fetchData();
+await addListeners();
+await setHTML();
 
 function clearLocalData() {
     localData = [];
@@ -17,7 +18,7 @@ function clearChromeData() {
     chrome.storage.sync.set({"data": ""});
 }
 
-function fetchData() {
+async function fetchData() {
     clearLocalData();
     console.log("running fetchData");
    
@@ -25,27 +26,38 @@ function fetchData() {
         console.log("the reason we couldnt find data is " + reason.type);
     });
     
-    chrome.storage.sync.get(["data"], (result) => {
-        console.log("im trying something new " + result["data"]);
-        if (result["data"] == ""){
-            console.log("chrome's data is empty");
-            setLocalData();
-        }
-    });
-    chrome.storage.sync.get("data").then((result) => {
+    // chrome.storage.sync.get(["data"], (result) => {
+    //     console.log("im trying something new " + result["data"]);
+    //     if (result["data"] == ""){
+    //         console.log("chrome's data is empty");
+    //         setLocalData();
+    //     }
+    // });
+    await chrome.storage.sync.get("data").then((result) => {
         console.log("result[data]: " + result["data"]);
         if (result["data"] == ""){
             console.log("chrome's data is empty");
             setLocalData();
         }
-        for (let i = 0; i < result["data"].length; i++) {
-            console.log("result[data][i]: " + result["data"][i]);
-            localData.push(result["data"][i]);
+        console.log("the type of result[data][1] is " + typeof result["data"][1]);
+        console.log("the actual of result[data][1] is " + result["data"][1]);
+        console.log("the length of result[data][1] is " + result["data"][1].length);
+        for (let i = 1; i < result["data"].length; i++) {
+            let rowData: string[] = [];
+            for (let j = 0; j < result["data"][i].length; j++){
+                console.log("i: " + i + " j: " + j);
+                console.log("result[data][i][j] is " + result["data"][i][j]);
+                rowData.push(result["data"][i][j]);
+            }
+            for (let row = 0; row < rowData.length; row++){
+                console.log("row " + row + " data is " + rowData[row]);
+            }
+            localData.push(rowData);
+            printData(localData);
         }
     });
     console.log("local data after setLocal");
     printData(localData);
-    setHTML();
 }
 
 /* 
@@ -53,7 +65,7 @@ function fetchData() {
 * sets the local data    
 * then sets chromes data
 */
-function setLocalData() {
+async function setLocalData() {
     console.log("setting local data from HTML");
 
     // first clear local data first
@@ -85,10 +97,11 @@ function setLocalData() {
     chrome.storage.sync.set({"data": localData});
 }
 
-function setHTML() {
+async function setHTML() {
     console.log("updating HTML");
     if (localData.length == 0){
         console.log("local data is empty");
+        printData(localData);
         return;
     }
     const rowLength = table.rows.length;
@@ -109,8 +122,10 @@ function setHTML() {
                 const inpEl = elements[0] as HTMLInputElement;
                 console.log("we are in updateHTML and data is ");
                 printData(localData);
-                console.log(`data[i][j] is ${localData[i][j]}`);
-                inpEl.value = localData[i][j];
+                console.log(`i: ${i}, j: ${j}`);
+                console.log(`data[i][j] is ${localData[i - 1][j]}`);
+                inpEl.value = localData[i - 1][j];
+                console.log("we set the inpEl.value ");
             }
         }
     }
@@ -121,7 +136,7 @@ function setHTML() {
 // });
 
 
-function addListeners() {
+async function addListeners() {
     let rowLength = table.rows.length;
     for (let i = 0; i < rowLength; i++) {
         //gets cells of current row
@@ -138,7 +153,6 @@ function addListeners() {
             if (elements[0] != null) {
                 const inpEl = elements[0] as HTMLInputElement;
                 inpEl.addEventListener("change", (event) => {
-                    // TODO: 
                     setLocalData();
                     setHTML();
                 });
@@ -200,9 +214,11 @@ addButton.addEventListener("click", (event) => {
 
 
 function printData(data: string[][]) {
+    console.log("data.length: " + data.length);
     for (let i = 0; i < data.length; i++) {
+        console.log("data[i].length is " + data[i].length);
         for (let j = 0; j < data[i].length; j++) {
-            console.log(data[i][j]);
+            console.log(`data[${i}][${j}] is ${data[i][j]}`);
         }
     }
 }
