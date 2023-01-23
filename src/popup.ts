@@ -154,7 +154,6 @@ async function addListeners() {
                 const inpEl = elements[0] as HTMLInputElement;
                 inpEl.addEventListener("change", (event) => {
                     setLocalData();
-                    setHTML();
                 });
             }
         }
