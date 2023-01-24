@@ -103,6 +103,7 @@ async function createHTMLFromData() {
     console.log("creating HTML from Data");
 
     let newTable = document.createElement('table');
+    newTable.classList.add("styled-table");
 
     for (let i = 0; i < localData.length; i++) {
         let row = newTable.insertRow(i);
