@@ -1,0 +1,174 @@
+commit 19fe7c6879dc50ce545e275172a8d45e8b492c71
+Author: = <=>
+Date:   Tue Jan 24 07:52:25 2023 -0500
+
+    Nice css
+
+commit 52c4914eb9cb434115e6eba1aba46fb4276b5eb2
+Author: = <=>
+Date:   Mon Jan 23 18:21:07 2023 -0500
+
+    Added listeners to newly added html rows
+
+commit f7d462eeb3ba70cc63c9f0a8ad8c3f32280ef38c
+Author: = <=>
+Date:   Mon Jan 23 10:24:58 2023 -0500
+
+    Fixed undefined error when changing input
+
+commit bfca540a67c331e1a0db69a9399c4ded9a67aece
+Author: = <=>
+Date:   Mon Jan 23 10:06:29 2023 -0500
+
+    loads html between popups
+
+commit 3048785864572feef1a9dda35bf452934639c130
+Author: = <=>
+Date:   Sat Jan 21 23:15:18 2023 -0500
+
+    Realized problem with background.. moved to popup
+
+commit 120f63d18fe7f752b8519c44e5fc2c988307a816
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Fri Jan 20 11:37:52 2023 -0500
+
+    Clicking Add now adds a new row to table and data
+
+commit fa748ce5838ff8a1511da7931f2ebcb687740c1c
+Author: = <=>
+Date:   Fri Jan 20 09:35:20 2023 -0500
+
+    Starting to add HTML updates with data.. !NOT_WORKING!
+
+commit 8cc5226d6210358b6f94364a3c817e4c3721b28e
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Thu Jan 19 10:42:00 2023 -0500
+
+    Reorganized data so it works and utilizes 2d array
+
+commit 5c858e97a06937a69dcc9f6820377551f6d8edee
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Thu Jan 19 10:28:00 2023 -0500
+
+    Changed data so it updates when values are edited
+
+commit 94157569c3f8dcaaaa248fb3043a5eda351b9ac3
+Author: = <=>
+Date:   Thu Jan 19 10:07:56 2023 -0500
+
+    Put data in background
+
+commit bf51dbcfd9490e4e52bec3e23995767657784f23
+Author: = <=>
+Date:   Wed Jan 18 16:02:56 2023 -0500
+
+    completely redid init
+
+commit 752ad1bf2776397ef51bf02d4646bc2b042b5837
+Merge: 0d6f851 b6cdd2c
+Author: = <=>
+Date:   Tue Jan 17 19:49:40 2023 -0500
+
+    Merge branch 'main' of https://github.com/TKDPenguin/Midyear2023
+
+commit 0d6f851ee67ca1e63345fb3f161c28cbcaeeddfe
+Author: = <=>
+Date:   Tue Jan 17 19:48:51 2023 -0500
+
+    Started developing a way to get data from table, added storage permissions
+
+commit b6cdd2cbc13d753b6c4a27cffd9e428d75d92222
+Merge: 829f102 da2dd36
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Tue Jan 17 10:48:29 2023 -0500
+
+    Merge branch 'main' of https://github.com/TKDPenguin/Midyear2023
+
+commit 829f102f3489916db56d9d46df23c0f9d1091594
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Tue Jan 17 10:48:25 2023 -0500
+
+    table is now working with due date being a date
+
+commit da2dd36f61021d274f3f3ff9358106ea1c83b070
+Author: = <=>
+Date:   Tue Jan 17 10:20:21 2023 -0500
+
+    Edited gitignore to add javscript
+
+commit 32b0dab4be06f227eb1c9e373e56540e44854222
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Tue Jan 17 10:19:40 2023 -0500
+
+    Moved popup.js to organize files
+
+commit 60dc1c6f9fc1060882b73afbb776cef9f27cb869
+Author: = <=>
+Date:   Tue Jan 17 10:17:04 2023 -0500
+
+    Added typescript file
+
+commit f093966d077e46a5d4734fa5cf1b5a9bfded3133
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Tue Jan 17 10:15:00 2023 -0500
+
+    Fixed manifest to check the correct html file
+
+commit 7699ee22a3c5457de5b34387e5e1f2597566dc7d
+Merge: 86405f2 9f2f3de
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Tue Jan 17 10:13:56 2023 -0500
+
+    Merge branch 'main' of https://github.com/TKDPenguin/Midyear2023
+
+commit 86405f2ded4478bc779dbfdbaea85d67bf97903c
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Tue Jan 17 10:12:51 2023 -0500
+
+    Starting to create table (no borders)
+
+commit 9f2f3de2ec4fdd6840c5b005130563a1beedf4d3
+Author: mudasir <96320211+mud-ali@users.noreply.github.com>
+Date:   Fri Jan 13 16:03:15 2023 -0500
+
+    updated file path for icon
+
+commit 520962682085eb2d8118c3d990e74181412a62ea
+Merge: b6b2e97 04284f2
+Author: = <=>
+Date:   Fri Jan 13 16:01:06 2023 -0500
+
+    Merge branch 'main' of https://github.com/TKDPenguin/Midyear2023
+
+commit b6b2e976e8badf724c925ee325efe517f21d3fb3
+Author: = <=>
+Date:   Fri Jan 13 16:00:21 2023 -0500
+
+    Installed TSC
+
+commit 04284f228591b578336db758d2eee7597ee74519
+Merge: be61360 d682c48
+Author: TKDPenguin <98178409+TKDPenguin@users.noreply.github.com>
+Date:   Fri Jan 13 15:51:34 2023 -0500
+
+    Merge pull request #2 from mud-ali/main
+    
+    Created popup heading
+
+commit d682c486377f376c1797a64ec45101e0298e4950
+Author: mudasir <96320211+mud-ali@users.noreply.github.com>
+Date:   Fri Jan 13 15:50:53 2023 -0500
+
+    Created popup heading
+
+commit be6136078efeab3c290e7c568a67484d00e3b973
+Author: = <=>
+Date:   Fri Jan 13 15:38:49 2023 -0500
+
+    Added Hello World started files
+
+commit 5a6787c5cfbe539a825bf17c9cc2142a1bd36a37
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Thu Jan 12 12:42:37 2023 -0500
+
+    Added README

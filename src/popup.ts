@@ -40,6 +40,7 @@ async function fetchData() {
             console.log("chrome's data is empty");
             setLocalData();
         }
+        
         // console.log("the type of result[data][1] is " + typeof result["data"][1]);
         // console.log("the actual of result[data][1] is " + result["data"][1]);
         // console.log("the length of result[data][1] is " + result["data"][1].length);
