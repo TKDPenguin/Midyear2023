@@ -25,6 +25,7 @@ async function fetchData() {
 
     chrome.storage.sync.get(["data"]).catch((reason) => {
         console.log("the reason we couldnt find data is " + reason.type);
+        clearChromeData();
     });
 
     // chrome.storage.sync.get(["data"], (result) => {
@@ -36,6 +37,11 @@ async function fetchData() {
     // });
     await chrome.storage.sync.get("data").then((result) => {
         console.log("result[data]: " + result["data"]);
+        if (result["data"] == undefined){
+            console.log("first time creating data!");
+            clearChromeData();
+            setLocalData();
+        }
         if (result["data"] == "") {
             console.log("chrome's data is empty");
             setLocalData();
