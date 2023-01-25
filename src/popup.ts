@@ -2,25 +2,48 @@
 
 // when popup opens.. lets try local variable
 
-export {};
+export { };
 let localData: string[][] = [];
 
 let table = document.querySelector("table") as HTMLTableElement;
 
+
+chrome.runtime.onInstalled.addListener((details) => {
+    console.log("we have just installed this for the first time!!!");
+});
+
+chrome.runtime.onStartup.addListener(() => {
+    console.log("we have just started up this");
+});
+
+await chrome.storage.sync.get("data").then(async (result) => {
+    console.log("result[data]: " + result["data"]);
+    if (result["data"] == undefined) {
+        console.log("first time creating data!");
+        await setDefault();
+    }
+});
 await fetchData();
 await addListeners();
 await createHTMLFromData();
 
-function clearLocalData() {
+async function clearLocalData() {
     localData = [];
 }
 
-function clearChromeData() {
-    chrome.storage.sync.set({ "data": "" });
+async function clearChromeData() {
+    chrome.storage.sync.set({ "data": [] });
+}
+
+async function setDefault() {
+    console.log("set default");
+    clearLocalData;
+    localData.push(["Click here!", "Some Assignements", "0000-00-00"]);
+    await chrome.storage.sync.set({ "data": localData });
 }
 
 async function fetchData() {
-    clearLocalData();
+    await clearLocalData();
     console.log("running fetchData");
 
     chrome.storage.sync.get(["data"]).catch((reason) => {
@@ -35,23 +58,33 @@ async function fetchData() {
     //         setLocalData();
     //     }
     // });
-    await chrome.storage.sync.get("data").then((result) => {
+    await chrome.storage.sync.get("data").then(async (result) => {
         console.log("result[data]: " + result["data"]);
-        if (result["data"] == undefined){
+        if (result["data"] == undefined) {
             console.log("first time creating data!");
-            clearChromeData();
-            setLocalData();
+            await setDefault();
         }
         if (result["data"] == "") {
             console.log("chrome's data is empty");
-            setLocalData();
+            await setLocalData();
         }
-        
+
+        console.log("result[data] is " + typeof result["data"]);
+        if (result["data"] == undefined) {
+            console.log("some error here idk why");
+            await clearChromeData();
+            await setLocalData();
+        }
+
         // console.log("the type of result[data][1] is " + typeof result["data"][1]);
         // console.log("the actual of result[data][1] is " + result["data"][1]);
         // console.log("the length of result[data][1] is " + result["data"][1].length);
         for (let i = 0; i < result["data"].length; i++) {
             let rowData: string[] = [];
+            console.log("we are in for loop and result[data][i].length is " + typeof result["data"][i].length);
+            if (result["data"][i].length == 0) {
+                continue;
+            }
             for (let j = 0; j < result["data"][i].length; j++) {
                 console.log("i: " + i + " j: " + j);
                 console.log("result[data][i][j] is " + result["data"][i][j]);
@@ -61,7 +94,7 @@ async function fetchData() {
                 console.log("row " + row + " data is " + rowData[row]);
             }
             localData.push(rowData);
-            printData(localData);
+            await printData(localData);
         }
     });
     console.log("local data after setLocal");
@@ -80,15 +113,22 @@ async function setLocalData() {
     clearLocalData();
 
     let table = document.querySelector("table") as HTMLTableElement;
+    console.log("table is " + typeof table);
     const rowLength = table.rows.length;
+
+    console.log("rowLength is " + rowLength);
 
     for (let i = 0; i < rowLength; i++) {
         //gets cells of current row
         let items = table.rows.item(i) as HTMLTableRowElement;
         let cells = items.cells;
 
+        console.log("cells is " + cells);
+
         //gets amount of cells of current row
         let cellLength: number = cells.length;
+
+        console.log("cellLength is " + cellLength);
 
         let rowData: string[] = [];
 
@@ -103,7 +143,7 @@ async function setLocalData() {
         }
         localData.push(rowData);
     }
-    chrome.storage.sync.set({ "data": localData });
+    await chrome.storage.sync.set({ "data": localData });
 }
 
 async function createHTMLFromData() {
@@ -242,8 +282,7 @@ addButton.addEventListener("click", (event) => {
 });
 
 
-
-function printData(data: string[][]) {
+async function printData(data: string[][]) {
     console.log("data.length: " + data.length);
     for (let i = 0; i < data.length; i++) {
         console.log("data[i].length is " + data[i].length);
