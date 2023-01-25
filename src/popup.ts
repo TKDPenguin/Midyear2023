@@ -38,7 +38,7 @@ async function clearChromeData() {
 async function setDefault() {
     console.log("set default");
     clearLocalData;
-    localData.push(["Click here!", "Some Assignements", "0000-00-00"]);
+    localData.push(["Click here!", "Some Assignements", "0001-01-01"]);
     await chrome.storage.sync.set({ "data": localData });
 }
 
