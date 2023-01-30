@@ -1,3 +1,39 @@
+commit a958c8ce04b23fdc36138825623322986bceeb35
+Author: = <=>
+Date:   Mon Jan 30 08:50:23 2023 -0500
+
+    Started working on a way to keep track of started assignements
+
+commit 486793a5fddca615ef9c67fc42c07e9f68ef33b4
+Author: = <=>
+Date:   Mon Jan 30 08:32:45 2023 -0500
+
+    Done button removes the assignement
+
+commit 905ce728c9414dc88f374ecbaf7cfdda54ed31bb
+Author: = <=>
+Date:   Wed Jan 25 09:11:07 2023 -0500
+
+    fixed date format
+
+commit 6042ec1518375d902b83a7f342c57710616eb1d6
+Author: = <=>
+Date:   Wed Jan 25 09:03:56 2023 -0500
+
+    added default data
+
+commit 79f9ff4a699467e30184f2db304f6c3038588138
+Author: = <=>
+Date:   Tue Jan 24 15:39:42 2023 -0500
+
+    fixing first login data setting
+
+commit ae003d6e38d5d6469b1e2001a79f41b6f1a598ff
+Author: = <=>
+Date:   Tue Jan 24 15:24:22 2023 -0500
+
+    Trying to fix last push
+
 commit 19fe7c6879dc50ce545e275172a8d45e8b492c71
 Author: = <=>
 Date:   Tue Jan 24 07:52:25 2023 -0500

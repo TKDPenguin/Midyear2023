@@ -104,13 +104,21 @@ async function fetchData() {
 
 async function removeData(index: number) {
     // shift everything once to the left
-    console.log("we are removing index " + index);
+    // await setLocalData();
+    console.log("we are removing index " + index + " localData.length " + localData.length);
+    printData(localData);
     // edge case.. if its the last thing in the list
+    if (index == localData.length) {
+        console.log("some weird error");
+        return;
+    }
     if (index == localData.length - 1){
+        console.log("last index");
         localData.pop();
         return;
     }
-    for (let i = index + 1; i < localData.length; i++) {
+    let length = localData.length;
+    for (let i = index + 1; i < length; i++) {
         localData[i - 1] = localData[i];
     }
     localData.pop();
@@ -332,7 +340,7 @@ async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
         localData.push(rowData);
         await chrome.storage.sync.set({ "data": localData });
         await createHTMLFromData();
-        await addListeners();
+        // await addListeners();
     }
 }
 
