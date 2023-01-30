@@ -9,12 +9,17 @@ body {
     margin: 25px 0;
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 400px;
+    max-width: 400px;
     text-align: center;
 }
 
+.priority {
+    text-align: center;
+    max-width: min-content;
+}
+
 .styled-table td {
-    padding: 12px 15px;
+    padding: 8px 10px;
 }
 
 .styled-table tr:nth-of-type(1), b, h1 {
