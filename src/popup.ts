@@ -122,7 +122,7 @@ async function removeData(index: number) {
         localData[i - 1] = localData[i];
     }
     localData.pop();
-    printData(localData);
+    await chrome.storage.sync.set({ "data": localData });
 }
 
 /* 
