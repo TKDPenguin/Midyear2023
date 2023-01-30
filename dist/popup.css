@@ -22,6 +22,10 @@ body {
     padding: 8px 10px;
 }
 
+body::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
 .styled-table tr:nth-of-type(1), b, h1 {
     font-size: 1.5em;
     color: #5E6472;
