@@ -187,12 +187,14 @@ async function createHTMLFromData() {
     let header2 = headersRow.insertCell(1);
     let header3 = headersRow.insertCell(2);
     let header4 = headersRow.insertCell(3);
+    let header5 = headersRow.insertCell(4);
 
     // Add some bold text in the new cell:
     header1.innerHTML = "<b>Subject</b>";
     header2.innerHTML = "<b>Assignment</b>";
     header3.innerHTML = "<b>Due</b>";
-    header4.innerHTML = "<b>Done</b>";
+    header4.innerHTML = "<b>Priority</b>";
+    header5.innerHTML = "<b>Done</b>";
     for (let i = 0; i < localData.length; i++) {
         let row = newTable.insertRow(i + 1);
         let subject = row.insertCell(0);
@@ -209,9 +211,9 @@ async function createHTMLFromData() {
         console.log("cell3 = " + dueDate.innerHTML);
         started.innerHTML = `
         <select name="priority" id="priority">
-          <option value="high">High Priority</option>
-          <option value="middle">Medium Priority</option>
-          <option value="low">Low Priority</option>
+          <option value="high">High</option>
+          <option value="middle">Medium</option>
+          <option value="low">Low</option>
         </select>`;
         console.log("cell3 = " + dueDate.innerHTML);
         done.innerHTML = `<button>Done</button>`;
