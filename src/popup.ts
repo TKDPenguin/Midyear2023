@@ -101,6 +101,22 @@ async function fetchData() {
     printData(localData);
 }
 
+
+async function removeData(index: number) {
+    // shift everything once to the left
+    console.log("we are removing index " + index);
+    // edge case.. if its the last thing in the list
+    if (index == localData.length - 1){
+        localData.pop();
+        return;
+    }
+    for (let i = index + 1; i < localData.length; i++) {
+        localData[i - 1] = localData[i];
+    }
+    localData.pop();
+    printData(localData);
+}
+
 /* 
 * based on the HTML
 * sets the local data    
@@ -118,7 +134,7 @@ async function setLocalData() {
 
     console.log("rowLength is " + rowLength);
 
-    for (let i = 0; i < rowLength; i++) {
+    for (let i = 1; i < rowLength; i++) {
         //gets cells of current row
         let items = table.rows.item(i) as HTMLTableRowElement;
         let cells = items.cells;
@@ -152,8 +168,25 @@ async function createHTMLFromData() {
     let newTable = document.createElement('table');
     newTable.classList.add("styled-table");
 
+    // Create an empty <thead> element and add it to the table:
+    let header = newTable.createTHead();
+
+    // Create an empty <tr> element and add it to the first position of <thead>:
+    let headersRow = header.insertRow(0);
+
+    // Insert a new cell (<td>) at the first position of the "new" <tr> element:
+    let header1 = headersRow.insertCell(0);
+    let header2 = headersRow.insertCell(1);
+    let header3 = headersRow.insertCell(2);
+    let header4 = headersRow.insertCell(3);
+
+    // Add some bold text in the new cell:
+    header1.innerHTML = "<b>Subject</b>";
+    header2.innerHTML = "<b>Assignment</b>";
+    header3.innerHTML = "<b>Due</b>";
+    header4.innerHTML = "<b>Done</b>";
     for (let i = 0; i < localData.length; i++) {
-        let row = newTable.insertRow(i);
+        let row = newTable.insertRow(i + 1);
         let cell1 = row.insertCell(0);
         let cell2 = row.insertCell(1);
         let cell3 = row.insertCell(2);
@@ -175,6 +208,11 @@ async function createHTMLFromData() {
         cell3.addEventListener("change", (event) => {
             setLocalData();
         });
+        cell4.addEventListener("click", () => {
+            console.log("buton clicked! " + i);
+            removeData(i);
+            createHTMLFromData();
+        })
     }
     table.parentNode?.replaceChild(newTable, table);
     table = newTable;
@@ -220,6 +258,7 @@ async function setHTML() {
 
 
 async function addListeners() {
+    console.log("we are in the function addListeners");
     let table = document.querySelector("table") as HTMLTableElement;
     let rowLength = table.rows.length;
     for (let i = 0; i < rowLength; i++) {
@@ -231,16 +270,29 @@ async function addListeners() {
         let cellLength: number = cells.length;
 
         //loops through each cell in current row
-        for (var j = 0; j < cellLength - 1; j++) {
+        for (let j = 0; j < cellLength - 1; j++) {
+            console.log("looping!");
             let cellVal = cells.item(j) as HTMLTableCellElement;
             let elements = cellVal.getElementsByTagName("input");
             if (elements[0] != null) {
                 const inpEl = elements[0] as HTMLInputElement;
                 console.log("we are adding listener to " + inpEl.name);
                 inpEl.addEventListener("change", (event) => {
+                    console.log("input changed!");
                     setLocalData();
                 });
             }
+        }
+        let butval = cells.item(cellLength - 1) as HTMLTableCellElement;
+        let els = butval.getElementsByTagName("button");
+        if (els[0] != null) {
+            const butel = els[0] as HTMLButtonElement;
+            console.log("adding event listener to button");
+            butel.addEventListener("click", () => {
+                console.log("buton clicked! " + i);
+                removeData(i);
+                createHTMLFromData();
+            })
         }
     }
 }
