@@ -207,7 +207,12 @@ async function createHTMLFromData() {
         console.log("cell2 = " + assignment.innerHTML);
         dueDate.innerHTML = `<input type="date" value="${localData[i][2]}">`;
         console.log("cell3 = " + dueDate.innerHTML);
-        started.innerHTML = `<input type="checkbox" id = "started" value="off"><label for="started">Started</label>`;
+        started.innerHTML = `
+        <select name="priority" id="priority">
+          <option value="high">High Priority</option>
+          <option value="middle">Medium Priority</option>
+          <option value="low">Low Priority</option>
+        </select>`;
         console.log("cell3 = " + dueDate.innerHTML);
         done.innerHTML = `<button>Done</button>`;
         subject.addEventListener("change", (event) => {
@@ -335,9 +340,11 @@ async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
                 console.log("we are in AddTableRows and ")
                 console.log(`we are adding ${inpEl.value} to data ${localData}`);
                 rowData.push(inpEl.value);
+                inpEl.value = "";
             }
         }
         localData.push(rowData);
+
         await chrome.storage.sync.set({ "data": localData });
         await createHTMLFromData();
         // await addListeners();
