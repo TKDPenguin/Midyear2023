@@ -187,28 +187,31 @@ async function createHTMLFromData() {
     header4.innerHTML = "<b>Done</b>";
     for (let i = 0; i < localData.length; i++) {
         let row = newTable.insertRow(i + 1);
-        let cell1 = row.insertCell(0);
-        let cell2 = row.insertCell(1);
-        let cell3 = row.insertCell(2);
-        let cell4 = row.insertCell(3);
+        let subject = row.insertCell(0);
+        let assignment = row.insertCell(1);
+        let dueDate = row.insertCell(2);
+        let started = row.insertCell(3);
+        let done = row.insertCell(4);
 
-        cell1.innerHTML = `<input type="text" value="${localData[i][0]}">`;
-        console.log("cell1 = " + cell1.innerHTML);
-        cell2.innerHTML = `<input type="text" value="${localData[i][1]}">`;
-        console.log("cell2 = " + cell2.innerHTML);
-        cell3.innerHTML = `<input type="date" value="${localData[i][2]}">`;
-        console.log("cell3 = " + cell3.innerHTML);
-        cell4.innerHTML = `<button>Done</button>`;
-        cell1.addEventListener("change", (event) => {
+        subject.innerHTML = `<input type="text" value="${localData[i][0]}">`;
+        console.log("cell1 = " + subject.innerHTML);
+        assignment.innerHTML = `<input type="text" value="${localData[i][1]}">`;
+        console.log("cell2 = " + assignment.innerHTML);
+        dueDate.innerHTML = `<input type="date" value="${localData[i][2]}">`;
+        console.log("cell3 = " + dueDate.innerHTML);
+        started.innerHTML = `<input type="checkbox" id = "started" value="off"><label for="started">Started</label>`;
+        console.log("cell3 = " + dueDate.innerHTML);
+        done.innerHTML = `<button>Done</button>`;
+        subject.addEventListener("change", (event) => {
             setLocalData();
         });
-        cell2.addEventListener("change", (event) => {
+        assignment.addEventListener("change", (event) => {
             setLocalData();
         });
-        cell3.addEventListener("change", (event) => {
+        dueDate.addEventListener("change", (event) => {
             setLocalData();
         });
-        cell4.addEventListener("click", () => {
+        done.addEventListener("click", () => {
             console.log("buton clicked! " + i);
             removeData(i);
             createHTMLFromData();
@@ -295,6 +298,12 @@ async function addListeners() {
             })
         }
     }
+}
+
+// ok so we need to use localData.. reorder it how we want to.. 
+// then finally set its value to chrome's storage
+// call createDataFromHTML at the end
+async function reorderData(){
 }
 
 async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {

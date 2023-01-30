@@ -17,10 +17,14 @@ body {
     padding: 12px 15px;
 }
 
-.styled-table tr:nth-of-type(1), b {
+.styled-table tr:nth-of-type(1), b, h1 {
     font-size: 1.5em;
     color: #5E6472;
         
+}
+
+h1 {
+    font-size: 1.9em;
 }
                 
                 
@@ -36,7 +40,7 @@ body {
     border-bottom: 2px solid #009879;
 }
 
-input {
+input, select {
     padding:10px;
     border:0;
     font-family: monospace;
