@@ -37,7 +37,7 @@ async function clearChromeData() {
 async function setDefault() {
     console.log("set default");
     clearLocalData;
-    localData.push(["Click here!", "Some Assignements", "0001-01-01"]);
+    localData.push(["Click here!", "Some Assignements", "0001-01-01", "low"]);
     await chrome.storage.sync.set({ "data": localData });
 }
 
@@ -164,6 +164,12 @@ async function setLocalData() {
                 rowData.push(inpEl.value);
             }
         }
+        let select = document.getElementById(`priority${i}`) as HTMLSelectElement;
+        console.log("row data is " + rowData)
+        let value = select.options[select.selectedIndex].value;
+        rowData.push(value)
+        console.log("row data length is " + rowData.length);
+        console.log("rowData[3] = " + rowData[3]);
         localData.push(rowData);
     }
     await chrome.storage.sync.set({ "data": localData });
@@ -217,12 +223,41 @@ async function createHTMLFromData() {
         console.log("cell2 = " + assignment.innerHTML);
         dueDate.innerHTML = `<input type="date" value="${localData[i][2]}">`;
         console.log("cell3 = " + dueDate.innerHTML);
-        started.innerHTML = `
-        <select name="priority" id="priority">
-          <option value="high">High</option>
-          <option value="middle">Medium</option>
-          <option value="low">Low</option>
-        </select>`;
+        let value = localData[i][3];
+        console.log(`localdata[${i}][3] = ${localData[i][3]}`)
+        switch (value) {
+            case "high":
+                started.innerHTML = `
+                <select name="priority${i}" id="priority${i}">
+                    <option value="high" selected>High</option>
+                    <option value="middle">Medium</option>
+                    <option value="low">Low</option>
+                </select>`;
+                break;
+            case "middle":
+                started.innerHTML = `
+                <select name="priority${i}" id="priority${i}">
+                    <option value="high">High</option>
+                    <option value="middle" selected>Medium</option>
+                    <option value="low">Low</option>
+                </select>`;
+                break;
+            case "low":
+                started.innerHTML = `
+                <select name="priority${i}" id="priority${i}">
+                    <option value="high">High</option>
+                    <option value="middle">Medium</option>
+                    <option value="low" selected>Low</option>
+                </select>`;
+                break;
+            default:
+                started.innerHTML = `
+                <select name="priority${i}" id="priority${i}">
+                    <option value="high" selected>High</option>
+                    <option value="middle">Medium</option>
+                    <option value="low">Low</option>
+                </select>`;
+        }
         console.log("cell3 = " + dueDate.innerHTML);
         done.innerHTML = `<button>Done</button>`;
         subject.addEventListener("change", (event) => {
@@ -232,6 +267,9 @@ async function createHTMLFromData() {
             setLocalData();
         });
         dueDate.addEventListener("change", (event) => {
+            setLocalData();
+        });
+        started.addEventListener("change", (event) => {
             setLocalData();
         });
         done.addEventListener("click", () => {
@@ -361,6 +399,11 @@ async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
                 inpEl.value = "";
             }
         }
+        let select = document.getElementById(`addPriority`) as HTMLSelectElement;
+        let value = select.options[select.selectedIndex].value;
+        rowData.push(value)
+        console.log("row data length is " + rowData.length);
+        console.log("rowData[3] = " + rowData[3]);
         localData.push(rowData);
 
         await chrome.storage.sync.set({ "data": localData });
