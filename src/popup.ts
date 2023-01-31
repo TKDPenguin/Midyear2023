@@ -7,7 +7,6 @@ let localData: string[][] = [];
 
 let table = document.querySelector("table") as HTMLTableElement;
 
-
 chrome.runtime.onInstalled.addListener((details) => {
     console.log("we have just installed this for the first time!!!");
 });
@@ -173,6 +172,15 @@ async function setLocalData() {
 async function createHTMLFromData() {
     console.log("creating HTML from Data");
 
+    if (localData.length == 0){
+        console.log("local data is empty so lets make something else");
+        let header1 = document.createElement('h1');
+        header1.textContent = "Up to date!";
+        header1.classList.add("up-to-date");
+        document.body.replaceChild(header1, table);
+        return;
+    }
+
     let newTable = document.createElement('table');
     newTable.classList.add("styled-table");
 
@@ -232,7 +240,15 @@ async function createHTMLFromData() {
             createHTMLFromData();
         })
     }
-    table.parentNode?.replaceChild(newTable, table);
+    if (table.parentNode != null){
+        table.parentNode?.replaceChild(newTable, table);
+        console.log("we replaced table");
+    }
+    else if (document.querySelector(".up-to-date")){
+        let up = document.querySelector(".up-to-date") as HTMLHeadingElement;
+        up.parentNode?.replaceChild(newTable, up);
+        console.log("we replaced header");
+    }
     table = newTable;
 }
 

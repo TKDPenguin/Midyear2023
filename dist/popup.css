@@ -10,6 +10,7 @@ body {
     font-size: 0.9em;
     font-family: sans-serif;
     max-width: 400px;
+    min-width: 400px;
     text-align: center;
 }
 
@@ -53,7 +54,7 @@ input, select {
     padding:10px;
     border:0;
     font-family: monospace;
-    box-shadow: 2.5px 2.5px 5px #5E6472;
+    box-shadow: 2px 2px 3px #685F74;
 }
 
 button {
@@ -63,7 +64,7 @@ button {
     border-radius: 4px;
     width: 60.401px;
     height: 37.33px;
-    box-shadow: 2.5px 2.5px 5px #5E6472;
+    box-shadow: 2px 2px 3px #685F74;
     transition-duration: 0.2s;
 }
 
