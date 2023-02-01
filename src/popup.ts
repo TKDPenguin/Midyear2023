@@ -158,18 +158,19 @@ async function setLocalData() {
         //loops through each cell in current row
         for (var j = 0; j < cellLength - 1; j++) {
             let cellVal = cells.item(j) as HTMLTableCellElement;
-            let elements = cellVal.getElementsByTagName("input");
-            if (elements[0] != null) {
-                const inpEl = elements[0] as HTMLInputElement;
+            let inpElements = cellVal.getElementsByTagName("input");
+            let selectElements = cellVal.getElementsByTagName("select");
+            if (inpElements[0] != null) {
+                const inpEl = inpElements[0] as HTMLInputElement;
                 rowData.push(inpEl.value);
             }
+            if (selectElements[0] != null) {
+                const selectEl = selectElements[0] as HTMLSelectElement;
+                rowData.push(selectEl.value);
+            }
         }
-        let select = document.getElementById(`priority${i}`) as HTMLSelectElement;
         console.log("row data is " + rowData)
-        let value = select.options[select.selectedIndex].value;
-        rowData.push(value)
         console.log("row data length is " + rowData.length);
-        console.log("rowData[3] = " + rowData[3]);
         localData.push(rowData);
     }
     await chrome.storage.sync.set({ "data": localData });
@@ -214,7 +215,7 @@ async function createHTMLFromData() {
         let subject = row.insertCell(0);
         let assignment = row.insertCell(1);
         let dueDate = row.insertCell(2);
-        let started = row.insertCell(3);
+        let priority = row.insertCell(3);
         let done = row.insertCell(4);
 
         subject.innerHTML = `<input type="text" value="${localData[i][0]}">`;
@@ -227,7 +228,7 @@ async function createHTMLFromData() {
         console.log(`localdata[${i}][3] = ${localData[i][3]}`)
         switch (value) {
             case "high":
-                started.innerHTML = `
+                priority.innerHTML = `
                 <select name="priority${i}" id="priority${i}">
                     <option value="high" selected>High</option>
                     <option value="middle">Medium</option>
@@ -235,7 +236,7 @@ async function createHTMLFromData() {
                 </select>`;
                 break;
             case "middle":
-                started.innerHTML = `
+                priority.innerHTML = `
                 <select name="priority${i}" id="priority${i}">
                     <option value="high">High</option>
                     <option value="middle" selected>Medium</option>
@@ -243,7 +244,7 @@ async function createHTMLFromData() {
                 </select>`;
                 break;
             case "low":
-                started.innerHTML = `
+                priority.innerHTML = `
                 <select name="priority${i}" id="priority${i}">
                     <option value="high">High</option>
                     <option value="middle">Medium</option>
@@ -251,7 +252,7 @@ async function createHTMLFromData() {
                 </select>`;
                 break;
             default:
-                started.innerHTML = `
+                priority.innerHTML = `
                 <select name="priority${i}" id="priority${i}">
                     <option value="high" selected>High</option>
                     <option value="middle">Medium</option>
@@ -269,7 +270,7 @@ async function createHTMLFromData() {
         dueDate.addEventListener("change", (event) => {
             setLocalData();
         });
-        started.addEventListener("change", (event) => {
+        priority.addEventListener("change", (event) => {
             setLocalData();
         });
         done.addEventListener("click", () => {
