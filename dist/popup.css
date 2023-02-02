@@ -53,21 +53,6 @@ h1 {
   width:100%;
   overflow:hidden;
 }
-.styled-table {
-  animation: slide-left 10s;
-}
-
-@keyframes slide-left {
-  from {
-    margin-left: 100%;
-    width: 300%; 
-  }
-
-  to {
-    margin-left: 0%;
-    width: 100%;
-  }
-}
 
 input, select {
     padding:10px;

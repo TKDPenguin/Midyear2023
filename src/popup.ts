@@ -25,6 +25,11 @@ await chrome.storage.sync.get("data").then(async (result) => {
 await fetchData();
 await addListeners();
 await createHTMLFromData();
+let sort = document.querySelector("#cars") as HTMLSelectElement;
+sort.addEventListener("change", (event) => {
+    console.log("Identified change in sort");
+    setLocalData();
+});
 
 async function clearLocalData() {
     localData = [];
@@ -173,7 +178,24 @@ async function setLocalData() {
         console.log("row data length is " + rowData.length);
         localData.push(rowData);
     }
+    let value = sort.options[sort.selectedIndex].value;
+    switch (value) {
+        case "user":
+            break;
+        case "date":
+            localData.sort((a, b) => new Date(a[2]).getTime() - new Date(b[2]).getTime());
+            console.log("Local data has been sorted to: " + localData)
+            break;
+        case "priority":
+            localData.sort(function (a, b) {
+                if (b[3] == a[3]) return 0;
+                else if (Number(b[3]) > Number(a[3])) return 1;
+                else return -1;
+            });
+            break;
+    }
     await chrome.storage.sync.set({ "data": localData });
+    await createHTMLFromData();
 }
 
 async function createHTMLFromData() {
@@ -227,36 +249,36 @@ async function createHTMLFromData() {
         let value = localData[i][3];
         console.log(`localdata[${i}][3] = ${localData[i][3]}`)
         switch (value) {
-            case "high":
+            case "3":
                 priority.innerHTML = `
                 <select name="priority${i}" id="priority${i}">
-                    <option value="high" selected>High</option>
-                    <option value="middle">Medium</option>
-                    <option value="low">Low</option>
+                    <option value="3" selected>High</option>
+                    <option value="2">Medium</option>
+                    <option value="1">Low</option>
                 </select>`;
                 break;
-            case "middle":
+            case "2":
                 priority.innerHTML = `
                 <select name="priority${i}" id="priority${i}">
-                    <option value="high">High</option>
-                    <option value="middle" selected>Medium</option>
-                    <option value="low">Low</option>
+                    <option value="3">High</option>
+                    <option value="2" selected>Medium</option>
+                    <option value="1">Low</option>
                 </select>`;
                 break;
-            case "low":
+            case "1":
                 priority.innerHTML = `
                 <select name="priority${i}" id="priority${i}">
-                    <option value="high">High</option>
-                    <option value="middle">Medium</option>
-                    <option value="low" selected>Low</option>
+                    <option value="3">High</option>
+                    <option value="2">Medium</option>
+                    <option value="1" selected>Low</option>
                 </select>`;
                 break;
             default:
                 priority.innerHTML = `
                 <select name="priority${i}" id="priority${i}">
-                    <option value="high" selected>High</option>
-                    <option value="middle">Medium</option>
-                    <option value="low">Low</option>
+                    <option value="3" selected>High</option>
+                    <option value="2">Medium</option>
+                    <option value="1">Low</option>
                 </select>`;
         }
         console.log("cell3 = " + dueDate.innerHTML);
