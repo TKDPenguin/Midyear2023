@@ -393,13 +393,15 @@ async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
             }
         }
         let select = document.getElementById(`addPriority`) as HTMLSelectElement;
-        let value = select.options[select.selectedIndex].value;
-        rowData.push(value)
+        let priority = select.options[select.selectedIndex].value;
+        rowData.push(priority)
         console.log("row data length is " + rowData.length);
         console.log("rowData[3] = " + rowData[3]);
         localData.push(rowData);
-        let newVal = sort.options[sort.selectedIndex].value;
-        switch (newVal) {
+        let sortOption = sort.options[sort.selectedIndex].value;
+        // remove the sort option in the beginning to remove it from being sorted
+        removeData(-1);
+        switch (sortOption) {
             case "user":
                 break;
             case "date":
@@ -428,6 +430,7 @@ async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
                 break;
         }
 
+        localData.unshift([sortOption]);
         await chrome.storage.sync.set({ "data": localData });
         await createHTMLFromData();
         // await addListeners();
