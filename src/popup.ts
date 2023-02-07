@@ -4,7 +4,7 @@
 
 export { };
 let localData: string[][] = [];
-let UserSetLocalData : string[][] = [];
+let pos = 0;
 
 let table = document.querySelector("table") as HTMLTableElement;
 
@@ -44,7 +44,6 @@ async function setDefault() {
     console.log("set default");
     clearLocalData;
     localData.push(["Click here!", "Some Assignements", "0001-01-01", "low"]);
-    UserSetLocalData.push(["Click here!", "Some Assignements", "0001-01-01", "low"]);
     await chrome.storage.sync.set({ "data": localData });
 }
 
@@ -100,7 +99,6 @@ async function fetchData() {
                 console.log("row " + row + " data is " + rowData[row]);
             }
             localData.push(rowData);
-            UserSetLocalData.push(rowData);
             await printData(localData);
         }
     });
@@ -180,16 +178,16 @@ async function setLocalData() {
         console.log("row data is " + rowData)
         console.log("row data length is " + rowData.length);
         localData.push(rowData);
-        UserSetLocalData.push(rowData);
     }
     let value = sort.options[sort.selectedIndex].value;
     switch (value) {
         case "user":
-                console.log("UserSetLocalData = " + UserSetLocalData)
-                for (let i = 0; i < UserSetLocalData.length; i++) {
-                    localData[i] = UserSetLocalData[i];
-                }
-            break;
+                localData.sort(function(a,b){
+                    if (a[4] > b[4]) return 1;
+                    else if (a[4] < b[4]) return -1;
+                    else return 0;
+                });
+                break;
             case "date":
                 localData.sort(function (a, b) { 
                     if (a[2] == "" && b[2] == "") {
@@ -446,13 +444,19 @@ async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
         let select = document.getElementById(`addPriority`) as HTMLSelectElement;
         let value = select.options[select.selectedIndex].value;
         rowData.push(value)
+        rowData.push(String(pos++));
         console.log("row data length is " + rowData.length);
         console.log("rowData[3] = " + rowData[3]);
+        console.log("rowData[4] = " + rowData[4])
         localData.push(rowData);
-        UserSetLocalData.push(rowData);
         let newVal = sort.options[sort.selectedIndex].value;
         switch (newVal) {
             case "user":
+                localData.sort(function(a,b){
+                    if (a[4] > b[4]) return 1;
+                    else if (a[4] < b[4]) return -1;
+                    else return 0;
+                });
                 break;
             case "date":
                 localData.sort(function (a, b) { 
