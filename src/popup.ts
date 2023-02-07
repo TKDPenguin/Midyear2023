@@ -100,7 +100,7 @@ async function removeData(index: number) {
     // shift everything once to the left
     // await setLocalData();
     // increase index because we need to account for the sort setting
-    index += 1;
+    // index += 1;
     console.log("we are removing index " + index + " localData.length " + localData.length);
     // printData(localData);
     // edge case.. if its the last thing in the list
@@ -390,6 +390,7 @@ async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
         if (inpElements[0] != null) {
             const inpEl = inpElements[0] as HTMLInputElement;
             rowData.push(inpEl.value);
+            inpEl.value = "";
         }
         if (selectElements[0] != null) {
             const selectEl = selectElements[0] as HTMLSelectElement;
