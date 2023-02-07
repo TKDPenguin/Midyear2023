@@ -4,6 +4,7 @@
 
 export { };
 let localData: string[][] = [];
+let pos = 0;
 
 let table = document.querySelector("table") as HTMLTableElement;
 
@@ -173,25 +174,29 @@ async function setLocalData() {
     let sort_value = sort.options[sort.selectedIndex].value;
     switch (sort_value) {
         case "user":
-            // TODO sort based on the order set in localData
-            break;
-        case "date":
-            localData.sort(function(a, b) {
-                if (a[2] == "" && b[2] == "") {
-                    console.log("Local data has been sorted to: " + localData);
-                    return 0;
-                } else if (a[2] == "") {
-                    console.log("Local data has been sorted to: " + localData);
-                    return new Date(b[2]).getTime() * -1;
-                } else if (b[2] == "") {
-                    console.log("Local data has been sorted to: " + localData);
-                    return new Date(a[2]).getTime();
-                } else {
-                    console.log("Local data has been sorted to: " + localData);
-                    return new Date(a[2]).getTime() - new Date(b[2]).getTime();
-                }
-            });
-            break;
+                localData.sort(function(a,b){
+                    if (a[4] > b[4]) return 1;
+                    else if (a[4] < b[4]) return -1;
+                    else return 0;
+                });
+                break;
+            case "date":
+                localData.sort(function (a, b) { 
+                    if (a[2] == "" && b[2] == "") {
+                        console.log("Local data has been sorted to: " + localData);
+                        return 0;
+                    } else if (a[2] == "") {
+                        console.log("Local data has been sorted to: " + localData);
+                        return new Date(b[2]).getTime()* -1;
+                    }else if (b[2] == "") {
+                        console.log("Local data has been sorted to: " + localData);
+                        return new Date(a[2]).getTime();
+                    } else {
+                        console.log("Local data has been sorted to: " + localData);
+                        return new Date(a[2]).getTime() - new Date(b[2]).getTime();
+                    }
+                });
+                break;
         case "priority":
             localData.sort(function(a, b) {
                 if (b[3] == a[3]) return 0;
