@@ -8,6 +8,8 @@ let pos = 0;
 
 let table = document.querySelector("table") as HTMLTableElement;
 
+let selection_lookup = ["user", "date", "priority"];
+
 chrome.runtime.onInstalled.addListener((details) => {
     console.log("we have just installed this for the first time!!!");
 });
@@ -23,14 +25,10 @@ await chrome.storage.sync.get("data").then(async (result) => {
         await setDefault();
     }
 });
+
 await fetchData();
 await addListeners();
 await createHTMLFromData();
-let sort = document.querySelector("#cars") as HTMLSelectElement;
-sort.addEventListener("change", (event) => {
-    console.log("Identified change in sort");
-    setLocalData();
-});
 
 async function clearLocalData() {
     localData = [];
@@ -43,7 +41,8 @@ async function clearChromeData() {
 async function setDefault() {
     console.log("set default");
     clearLocalData;
-    localData.push(["Click here!", "Some Assignements", "0001-01-01", "low"]);
+    localData.push(["user"]);
+    localData.push(["Click here!", "Some Assignements", "0001-01-01", "low", "1"]);
     await chrome.storage.sync.set({ "data": localData });
 }
 
@@ -56,34 +55,28 @@ async function fetchData() {
         clearChromeData();
     });
 
-    // chrome.storage.sync.get(["data"], (result) => {
-    //     console.log("im trying something new " + result["data"]);
-    //     if (result["data"] == ""){
-    //         console.log("chrome's data is empty");
-    //         setLocalData();
-    //     }
-    // });
     await chrome.storage.sync.get("data").then(async (result) => {
-        console.log("result[data]: " + result["data"]);
+        // console.log("result[data]: " + result["data"]);
         if (result["data"] == undefined) {
-            console.log("first time creating data!");
+            // console.log("first time creating data!");
             await setDefault();
         }
         if (result["data"] == "") {
-            console.log("chrome's data is empty");
+            // console.log("chrome's data is empty");
             await setLocalData();
         }
 
-        console.log("result[data] is " + typeof result["data"]);
-        if (result["data"] == undefined) {
-            console.log("some error here idk why");
-            await clearChromeData();
-            await setLocalData();
-        }
+        // console.log("result[data] is " + typeof result["data"]);
+        // if (result["data"] == undefined) {
+        //     console.log("some error here idk why");
+        //     await clearChromeData();
+        //     await setLocalData();
+        // }
 
         // console.log("the type of result[data][1] is " + typeof result["data"][1]);
         // console.log("the actual of result[data][1] is " + result["data"][1]);
         // console.log("the length of result[data][1] is " + result["data"][1].length);
+
         for (let i = 0; i < result["data"].length; i++) {
             let rowData: string[] = [];
             console.log("we are in for loop and result[data][i].length is " + typeof result["data"][i].length);
@@ -95,11 +88,7 @@ async function fetchData() {
                 console.log("result[data][i][j] is " + result["data"][i][j]);
                 rowData.push(result["data"][i][j]);
             }
-            for (let row = 0; row < rowData.length; row++) {
-                console.log("row " + row + " data is " + rowData[row]);
-            }
             localData.push(rowData);
-            await printData(localData);
         }
     });
     console.log("local data after setLocal");
@@ -110,14 +99,16 @@ async function fetchData() {
 async function removeData(index: number) {
     // shift everything once to the left
     // await setLocalData();
+    // increase index because we need to account for the sort setting
+    index += 1;
     console.log("we are removing index " + index + " localData.length " + localData.length);
-    printData(localData);
+    // printData(localData);
     // edge case.. if its the last thing in the list
     if (index == localData.length) {
         console.log("some weird error");
         return;
     }
-    if (index == localData.length - 1){
+    if (index == localData.length - 1) {
         console.log("last index");
         localData.pop();
         return;
@@ -179,8 +170,9 @@ async function setLocalData() {
         console.log("row data length is " + rowData.length);
         localData.push(rowData);
     }
-    let value = sort.options[sort.selectedIndex].value;
-    switch (value) {
+    let sort = document.querySelector("#sort") as HTMLSelectElement;
+    let sort_value = sort.options[sort.selectedIndex].value;
+    switch (sort_value) {
         case "user":
                 localData.sort(function(a,b){
                     if (a[4] > b[4]) return 1;
@@ -206,13 +198,15 @@ async function setLocalData() {
                 });
                 break;
         case "priority":
-            localData.sort(function (a, b) {
+            localData.sort(function(a, b) {
                 if (b[3] == a[3]) return 0;
                 else if (Number(b[3]) > Number(a[3])) return 1;
                 else return -1;
             });
             break;
     }
+    // add the sort value to the very beginning of localData
+    localData.unshift([sort_value]);
     await chrome.storage.sync.set({ "data": localData });
     await createHTMLFromData();
 }
@@ -220,7 +214,7 @@ async function setLocalData() {
 async function createHTMLFromData() {
     console.log("creating HTML from Data");
 
-    if (localData.length == 0){
+    if (localData.length == 0) {
         console.log("local data is empty so lets make something else");
         let header1 = document.createElement('h1');
         header1.textContent = "Up to date!";
@@ -251,8 +245,8 @@ async function createHTMLFromData() {
     header3.innerHTML = "<b>Due</b>";
     header4.innerHTML = "<b>Priority</b>";
     header5.innerHTML = "<b>Done</b>";
-    for (let i = 0; i < localData.length; i++) {
-        let row = newTable.insertRow(i + 1);
+    for (let i = 1; i < localData.length; i++) {
+        let row = newTable.insertRow(i);
         let subject = row.insertCell(0);
         let assignment = row.insertCell(1);
         let dueDate = row.insertCell(2);
@@ -265,9 +259,9 @@ async function createHTMLFromData() {
         console.log("cell2 = " + assignment.innerHTML);
         dueDate.innerHTML = `<input type="date" value="${localData[i][2]}">`;
         console.log("cell3 = " + dueDate.innerHTML);
-        let value = localData[i][3];
+        let priority_value = localData[i][3];
         console.log(`localdata[${i}][3] = ${localData[i][3]}`)
-        switch (value) {
+        switch (priority_value) {
             case "3":
                 priority.innerHTML = `
                 <select name="priority${i}" id="priority${i}">
@@ -320,56 +314,23 @@ async function createHTMLFromData() {
             createHTMLFromData();
         })
     }
-    if (table.parentNode != null){
+    let sort = document.querySelector("#sort") as HTMLSelectElement;
+    sort.selectedIndex = selection_lookup.indexOf(localData[0][0]);
+    sort.addEventListener("change", (event) => {
+        console.log("Identified change in sort");
+        setLocalData();
+    });
+    if (table.parentNode != null) {
         table.parentNode?.replaceChild(newTable, table);
         console.log("we replaced table");
     }
-    else if (document.querySelector(".up-to-date")){
+    else if (document.querySelector(".up-to-date")) {
         let up = document.querySelector(".up-to-date") as HTMLHeadingElement;
         up.parentNode?.replaceChild(newTable, up);
         console.log("we replaced header");
     }
     table = newTable;
 }
-
-async function setHTML() {
-    console.log("updating HTML");
-    if (localData.length == 0) {
-        console.log("local data is empty");
-        printData(localData);
-        return;
-    }
-    const rowLength = table.rows.length;
-
-    for (let i = 0; i < rowLength; i++) {
-        //gets cells of current row
-        let items = table.rows.item(i) as HTMLTableRowElement;
-        let cells = items.cells;
-
-        //gets amount of cells of current row
-        let cellLength: number = cells.length;
-
-        //loops through each cell in current row
-        for (var j = 0; j < cellLength - 1; j++) {
-            let cellVal = cells.item(j) as HTMLTableCellElement;
-            let elements = cellVal.getElementsByTagName("input");
-            if (elements[0] != null) {
-                const inpEl = elements[0] as HTMLInputElement;
-                console.log("we are in updateHTML and data is ");
-                printData(localData);
-                console.log(`i: ${i}, j: ${j}`);
-                console.log(`data[i][j] is ${localData[i - 1][j]}`);
-                inpEl.value = localData[i - 1][j];
-                console.log("we set the inpEl.value ");
-            }
-        }
-    }
-}
-// chrome.storage.sync.get(["data"]).then((result) => {
-//     console.log(`Value is currently ${result["data"]}`);
-//     console.log(printData(result["data"]));
-// });
-
 
 async function addListeners() {
     console.log("we are in the function addListeners");
@@ -411,13 +372,8 @@ async function addListeners() {
     }
 }
 
-// ok so we need to use localData.. reorder it how we want to.. 
-// then finally set its value to chrome's storage
-// call createDataFromHTML at the end
-async function reorderData(){
-}
-
 async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
+    let sort = document.querySelector("#sort") as HTMLSelectElement;
     let rowLength = add.rows.length;
 
     for (let i = 0; i < rowLength; i++) {
@@ -459,14 +415,14 @@ async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
                 });
                 break;
             case "date":
-                localData.sort(function (a, b) { 
+                localData.sort(function(a, b) {
                     if (a[2] == "" && b[2] == "") {
                         console.log("Local data has been sorted to: " + localData);
                         return 0;
                     } else if (a[2] == "") {
                         console.log("Local data has been sorted to: " + localData);
-                        return new Date(b[2]).getTime()* -1;
-                    }else if (b[2] == "") {
+                        return new Date(b[2]).getTime() * -1;
+                    } else if (b[2] == "") {
                         console.log("Local data has been sorted to: " + localData);
                         return new Date(a[2]).getTime();
                     } else {
@@ -476,7 +432,7 @@ async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
                 });
                 break;
             case "priority":
-                localData.sort(function (a, b) {
+                localData.sort(function(a, b) {
                     if (b[3] == a[3]) return 0;
                     else if (Number(b[3]) > Number(a[3])) return 1;
                     else return -1;
