@@ -6,15 +6,20 @@ body {
 
 :root {
   --text: #e5dab6;
-  --big_bg: #282828;
+  --big_bg: #0f0e13;
   --text_color: #f7f1cc;
-  --background: #786f65;
+  --background: #181922;
   --shadow: #93a9925c;
   /* Even */
-  --secondary: #8e8376;
-  --fill_color: #3b3836;
+  --secondary: #46383d;
+  --fill_color: #2a232e;
 }
-
+#selectDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap:4%;
+}
 input,
 select,
 button,

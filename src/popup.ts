@@ -7,6 +7,8 @@ let localData: string[][] = [];
 
 let table = document.querySelector("table") as HTMLTableElement;
 
+let theme = document.querySelector("#color-theme") as HTMLSelectElement;
+
 let selection_lookup = ["date", "priority"];
 
 chrome.runtime.onInstalled.addListener((details) => {
@@ -358,6 +360,44 @@ async function addListeners() {
     sort_option.addEventListener("change", () => {
         console.log("changed!! sort!!");
         setLocalData();
+    });
+    let theme = document.querySelector("#color-theme") as HTMLSelectElement;
+    theme.addEventListener("change", () => {
+        console.log("changed!! theme!!");
+        let selected = theme.options[theme.selectedIndex].value;
+        let rootTheme = document.querySelector(':root') as HTMLHtmlElement;
+        switch(selected) {
+            case "defualt":
+                rootTheme.style.setProperty('--big_bg', "#0f0e13");
+                rootTheme.style.setProperty('--background', "#181922");
+                rootTheme.style.setProperty('--secondary', "#46383d");
+                rootTheme.style.setProperty('--fill_color', "#2a232e");
+                break;
+            case "miner":
+                rootTheme.style.setProperty('--big_bg', "#282828");
+                rootTheme.style.setProperty('--background', "#786f65");
+                rootTheme.style.setProperty('--secondary', "#8e8376");
+                rootTheme.style.setProperty('--fill_color', "#3b3836");
+                break;
+            case "vine":
+                rootTheme.style.setProperty('--big_bg', "#478e74");
+                rootTheme.style.setProperty('--background', "#446b6a");
+                rootTheme.style.setProperty('--secondary', "#404c53");
+                rootTheme.style.setProperty('--fill_color', "#31343e");
+                break;
+            case "autumn":
+                rootTheme.style.setProperty('--big_bg', "#061e3f");
+                rootTheme.style.setProperty('--background', "#261e3e");
+                rootTheme.style.setProperty('--secondary', "#451e3e");
+                rootTheme.style.setProperty('--fill_color', "#651e3f");
+                break;
+            case "lavender":
+                rootTheme.style.setProperty('--big_bg', "#2c2031");
+                rootTheme.style.setProperty('--background', "#31243d");
+                rootTheme.style.setProperty('--secondary', "#482261");
+                rootTheme.style.setProperty('--fill_color', "#6f5d97");
+                break;
+        }
     });
     let table = document.querySelector("table") as HTMLTableElement;
     let rowLength = table.rows.length;
