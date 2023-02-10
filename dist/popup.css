@@ -5,14 +5,14 @@ body {
 }
 
 :root {
-  --text: #b47e7e;
-  --big_bg: #000F08;
-  --text_color: #F6C0D0;
-  --background: #0D1821;
+  --text: #e5dab6;
+  --big_bg: #282828;
+  --text_color: #f7f1cc;
+  --background: #786f65;
   --shadow: #93a9925c;
   /* Even */
-  --secondary: #171A21;
-  --fill_color: #3C474B;
+  --secondary: #8e8376;
+  --fill_color: #3b3836;
 }
 
 input,
@@ -101,5 +101,5 @@ button {
 }
 
 button:hover {
-  background-color: #D7E1EB;
+  background-color: #8e8376;
 }
