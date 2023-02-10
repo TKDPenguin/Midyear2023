@@ -1,45 +1,46 @@
-
 <html>
+
 <head>
-  <link rel="stylesheet" href = "popup.css">
+  <link rel="stylesheet" href="popup.css">
 </head>
-  <body>
-  
-    <h1>Homework Tracker</h1>
-    <select name="sort-options" id="sort">
-      <option value="user">User Set</option>
-      <option value="date">Date Due</option>
-      <option value="priority">Priority</option>
-    </select>
-    <table class = "styled-table"> </table>
 
-    <div>
-      <b>Add New Assignment:</b>
-    </div>
+<body>
 
-    <table id="addingTable" class = "styled-table">
-      <tr>
-        <td>
-          <input type="text" placeholder="Subject">
-        </td>
-        <td>
-          <input type="text" placeholder="Description">
-        </td>
-        <td>
-          <input type="date" placeholder="mm/dd/yyyy   ">
-        </td>
-        <td>
-          <select name="addPriority" id="addPriority">
-            <option value="3">High</option>
-            <option value="2">Medium</option>
-            <option value="1">Low</option>
-          </select>
-        </td>
-        <td>
-          <button id="add">Add</button>
-        </td>
-      </tr>
-    </table>
-    <script src="popup.js"></script>
-  </body>
+  <h1>Homework Tracker</h1>
+  <select name="sort-options" id="sort">
+    <option value="date">Date Due</option>
+    <option value="priority">Priority</option>
+  </select>
+  <table class="styled-table"> </table>
+
+  <div>
+    <b>Add New Assignment:</b>
+  </div>
+
+  <table id="addingTable" class="styled-table">
+    <tr>
+      <td>
+        <input type="text" placeholder="Subject">
+      </td>
+      <td>
+        <input type="text" placeholder="Description">
+      </td>
+      <td>
+        <input type="date" placeholder="mm/dd/yyyy   ">
+      </td>
+      <td>
+        <select name="addPriority" id="addPriority">
+          <option value="3">High</option>
+          <option value="2">Medium</option>
+          <option value="1">Low</option>
+        </select>
+      </td>
+      <td>
+        <button id="add">Add</button>
+      </td>
+    </tr>
+  </table>
+  <script src="popup.js"></script>
+</body>
+
 </html>

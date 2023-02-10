@@ -4,11 +4,10 @@
 
 export { };
 let localData: string[][] = [];
-let pos = 0;
 
 let table = document.querySelector("table") as HTMLTableElement;
 
-let selection_lookup = ["user", "date", "priority"];
+let selection_lookup = ["date", "priority"];
 
 chrome.runtime.onInstalled.addListener((details) => {
     console.log("we have just installed this for the first time!!!");
@@ -30,7 +29,7 @@ await fetchData();
 await addListeners();
 await createHTMLFromData();
 
-async function clearLocalData() {
+async function resetLocalData() {
     localData = [];
 }
 
@@ -40,19 +39,19 @@ async function clearChromeData() {
 
 async function setDefault() {
     console.log("set default");
-    clearLocalData();
-    localData.push(["user"]);
-    localData.push(["Click here!", "Some Assignements", "0001-01-01", "low", "1"]);
+    resetLocalData();
+    localData.push(["date"]);
+    localData.push(["Click here!", "Some Assignements", "0001-01-01", "1", "0"]);
     await chrome.storage.sync.set({ "data": localData });
 }
 
 async function fetchData() {
-    await clearLocalData();
+    await resetLocalData();
     console.log("running fetchData");
 
     chrome.storage.sync.get(["data"]).catch((reason) => {
         console.log("the reason we couldnt find data is " + reason.type);
-        clearChromeData();
+        resetLocalData();
     });
 
     await chrome.storage.sync.get("data").then(async (result) => {
@@ -100,25 +99,31 @@ async function removeData(index: number) {
     // shift everything once to the left
     // await setLocalData();
     // increase index because we need to account for the sort setting
-    // index += 1;
     console.log("we are removing index " + index + " localData.length " + localData.length);
-    // printData(localData);
+    printData(localData);
+    console.log("lets quickly remove sort");
+    let sort_value = localData.shift() as string[];
+    printData(localData);
     // edge case.. if its the last thing in the list
-    if (index == localData.length - 1) {
+    if (index == localData.length) {
         console.log("last index");
         localData.pop();
         console.log("removing data");
         printData(localData);
+        localData.unshift(sort_value);
         await chrome.storage.sync.set({ "data": localData });
         return;
     }
     let length = localData.length;
-    for (let i = index + 1; i < length; i++) {
+    for (let i = index; i < length; i++) {
         localData[i - 1] = localData[i];
     }
     localData.pop();
 
     console.log("removing data");
+    printData(localData);
+    console.log("unshift");
+    localData.unshift(sort_value);
     printData(localData);
     await chrome.storage.sync.set({ "data": localData });
 }
@@ -132,7 +137,7 @@ async function setLocalData() {
     console.log("setting local data from HTML");
 
     // first clear local data first
-    clearLocalData();
+    resetLocalData();
 
     let table = document.querySelector("table") as HTMLTableElement;
     // console.log("table is " + typeof table);
@@ -146,12 +151,9 @@ async function setLocalData() {
         let cells = items.cells;
 
         // console.log("cells is " + cells);
-
         //gets amount of cells of current row
         let cellLength: number = cells.length;
-
         // console.log("cellLength is " + cellLength);
-
         let rowData: string[] = [];
 
         //loops through each cell in current row
@@ -175,14 +177,20 @@ async function setLocalData() {
     let sort = document.querySelector("#sort") as HTMLSelectElement;
     let sort_value = sort.options[sort.selectedIndex].value;
     localData.unshift([sort_value]);
-    await sortLocalData();
-    console.log("localData after sorting");
-    printData(localData);
+    let changed = await sortLocalData();
+    // console.log("localData after sorting");
+    // printData(localData);
     await chrome.storage.sync.set({ "data": localData });
-    await createHTMLFromData();
+    if (changed)
+        await createHTMLFromData();
 }
 
+/*
+    Returns false if data was not changed
+    otherwise returns true
+*/
 async function sortLocalData() {
+    let copyData = JSON.parse(JSON.stringify(localData)); 
     let sort = document.querySelector("#sort") as HTMLSelectElement;
     let sort_value = sort.options[sort.selectedIndex].value;
     console.log("sort value is " + sort_value);
@@ -191,14 +199,6 @@ async function sortLocalData() {
     console.log("local data after shift");
     printData(localData);
     switch (sort_value) {
-        case "user":
-            localData.sort(function(a, b) {
-                console.log("a[4]: " + a[4]);
-                if (a[4] > b[4]) return 1;
-                else if (a[4] < b[4]) return -1;
-                else return 0;
-            });
-            break;
         case "date":
             localData.sort(function(a, b) {
                 if (a[2] == "" && b[2] == "") {
@@ -226,7 +226,8 @@ async function sortLocalData() {
     }
     // add the sort value to the very beginning of localData
     localData.unshift([sort_value]);
-    console.log("sorted localData")
+    console.log("sorted localData");
+    return JSON.stringify(localData) !== JSON.stringify(copyData);
 }
 
 async function createHTMLFromData() {
@@ -263,7 +264,7 @@ async function createHTMLFromData() {
     header3.innerHTML = "<b>Due</b>";
     header4.innerHTML = "<b>Priority</b>";
     header5.innerHTML = "<b>Done</b>";
-    printData(localData);
+    // printData(localData);
     for (let i = 1; i < localData.length; i++) {
         let row = newTable.insertRow(i);
         let subject = row.insertCell(0);
@@ -273,13 +274,13 @@ async function createHTMLFromData() {
         let done = row.insertCell(4);
 
         subject.innerHTML = `<input type="text" value="${localData[i][0]}">`;
-        console.log("cell1 = " + subject.innerHTML);
+        // console.log("cell1 = " + subject.innerHTML);
         assignment.innerHTML = `<input type="text" value="${localData[i][1]}">`;
-        console.log("cell2 = " + assignment.innerHTML);
+        // console.log("cell2 = " + assignment.innerHTML);
         dueDate.innerHTML = `<input type="date" value="${localData[i][2]}">`;
-        console.log("cell3 = " + dueDate.innerHTML);
+        // console.log("cell3 = " + dueDate.innerHTML);
         let priority_value = localData[i][3];
-        console.log(`localdata[${i}][3] = ${localData[i][3]}`)
+        // console.log(`localdata[${i}][3] = ${localData[i][3]}`)
         switch (priority_value) {
             case "3":
                 priority.innerHTML = `
@@ -313,18 +314,18 @@ async function createHTMLFromData() {
                     <option value="1">Low</option>
                 </select>`;
         }
-        console.log("cell3 = " + dueDate.innerHTML);
+        // console.log("cell3 = " + dueDate.innerHTML);
         done.innerHTML = `<button>Done</button>`;
-        subject.addEventListener("change", (event) => {
+        subject.addEventListener("change", () => {
             setLocalData();
         });
-        assignment.addEventListener("change", (event) => {
+        assignment.addEventListener("change", () => {
             setLocalData();
         });
-        dueDate.addEventListener("change", (event) => {
+        dueDate.addEventListener("change", () => {
             setLocalData();
         });
-        priority.addEventListener("change", (event) => {
+        priority.addEventListener("change", () => {
             setLocalData();
         });
         done.addEventListener("click", () => {
@@ -336,7 +337,7 @@ async function createHTMLFromData() {
     // set the value of the sort thingy
     let sort = document.querySelector("#sort") as HTMLSelectElement;
     sort.selectedIndex = selection_lookup.indexOf(localData[0][0]);
-    
+
     if (table.parentNode != null) {
         table.parentNode?.replaceChild(newTable, table);
         console.log("we replaced table");
@@ -357,7 +358,7 @@ async function addListeners() {
     sort_option.addEventListener("change", () => {
         console.log("changed!! sort!!");
         setLocalData();
-    })
+    });
     let table = document.querySelector("table") as HTMLTableElement;
     let rowLength = table.rows.length;
     for (let i = 0; i < rowLength; i++) {
@@ -409,36 +410,37 @@ async function addTableRows(table: HTMLTableElement, add: HTMLTableElement) {
             rowData.push(inpEl.value);
             inpEl.value = "";
         }
-        let selectElements = cellVal.getElementsByTagName("select");
-        if (selectElements[0] != null) {
-            const selectEl = selectElements[0] as HTMLSelectElement;
-            rowData.push(selectEl.value);
-        }
+        // let selectElements = cellVal.getElementsByTagName("select");
+        // if (selectElements[0] != null) {
+        //     const selectEl = selectElements[0] as HTMLSelectElement;
+        //     rowData.push(selectEl.value);
+        // }
     }
     let select = document.getElementById(`addPriority`) as HTMLSelectElement;
     let priority = select.options[select.selectedIndex].value;
     rowData.push(priority)
-    console.log(`add ${rowData}`)
+    console.log(`add ${rowData.toString()}`)
     localData.push(rowData);
     await sortLocalData();
     await chrome.storage.sync.set({ "data": localData });
     await createHTMLFromData();
 }
 
-
 const addTable = document.querySelector("#addingTable") as HTMLTableElement;
 const addButton = document.querySelector("#add") as HTMLButtonElement;
-addButton.addEventListener("click", (event) => {
+addButton.addEventListener("click", () => {
     addTableRows(table, addTable);
 });
-
 
 async function printData(data: string[][]) {
     console.log("data.length: " + data.length);
     for (let i = 0; i < data.length; i++) {
         console.log("data[i].length is " + data[i].length);
+        let row: string = "";
         for (let j = 0; j < data[i].length; j++) {
             console.log(`data[${i}][${j}] is ${data[i][j]}`);
+            row += data[i][j] + " ";
         }
+        console.log(row);
     }
 }
