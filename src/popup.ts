@@ -4,10 +4,11 @@
 
 export { };
 let localData: string[][] = [];
+let localTheme: string = "";
 
 let table = document.querySelector("table") as HTMLTableElement;
 
-let theme = document.querySelector("#color-theme") as HTMLSelectElement;
+// let theme = document.querySelector("#color-theme") as HTMLSelectElement;
 
 let selection_lookup = ["date", "priority"];
 
@@ -45,6 +46,7 @@ async function setDefault() {
     localData.push(["date"]);
     localData.push(["Click here!", "Some Assignements", "0001-01-01", "1", "0"]);
     await chrome.storage.sync.set({ "data": localData });
+    await chrome.storage.sync.set({ "theme": "chocalate" });
 }
 
 async function fetchData() {
@@ -94,6 +96,11 @@ async function fetchData() {
     });
     console.log("local data after setLocal");
     printData(localData);
+    await chrome.storage.sync.get("theme").then(async (result) => {
+        localTheme = result["theme"];
+        console.log("localTheme is " + localTheme);
+        changeTheme(localTheme);
+    });
 }
 
 
@@ -192,7 +199,7 @@ async function setLocalData() {
     otherwise returns true
 */
 async function sortLocalData() {
-    let copyData = JSON.parse(JSON.stringify(localData)); 
+    let copyData = JSON.parse(JSON.stringify(localData));
     let sort = document.querySelector("#sort") as HTMLSelectElement;
     let sort_value = sort.options[sort.selectedIndex].value;
     console.log("sort value is " + sort_value);
@@ -353,6 +360,46 @@ async function createHTMLFromData() {
 }
 
 
+async function changeTheme(theme: string) {
+    let rootTheme = document.querySelector(':root') as HTMLHtmlElement;
+    switch (theme) {
+        case "chocalate":
+            rootTheme.style.setProperty('--big_bg', "#0f0e13");
+            rootTheme.style.setProperty('--background', "#181922");
+            rootTheme.style.setProperty('--secondary', "#46383d");
+            rootTheme.style.setProperty('--fill_color', "#2a232e");
+            break;
+        case "miner":
+            rootTheme.style.setProperty('--big_bg', "#282828");
+            rootTheme.style.setProperty('--background', "#786f65");
+            rootTheme.style.setProperty('--secondary', "#8e8376");
+            rootTheme.style.setProperty('--fill_color', "#3b3836");
+            break;
+        case "vine":
+            rootTheme.style.setProperty('--big_bg', "#478e74");
+            rootTheme.style.setProperty('--background', "#446b6a");
+            rootTheme.style.setProperty('--secondary', "#404c53");
+            rootTheme.style.setProperty('--fill_color', "#31343e");
+            break;
+        case "autumn":
+            rootTheme.style.setProperty('--big_bg', "#061e3f");
+            rootTheme.style.setProperty('--background', "#261e3e");
+            rootTheme.style.setProperty('--secondary', "#451e3e");
+            rootTheme.style.setProperty('--fill_color', "#651e3f");
+            break;
+        case "lavender":
+            rootTheme.style.setProperty('--big_bg', "#2c2031");
+            rootTheme.style.setProperty('--background', "#31243d");
+            rootTheme.style.setProperty('--secondary', "#482261");
+            rootTheme.style.setProperty('--fill_color', "#6f5d97");
+            break;
+    }
+    await chrome.storage.sync.set({ "theme" : theme });
+    localTheme = theme;
+    let theme_select = document.querySelector("#color-theme") as HTMLSelectElement;
+    console.log("theme_select.value is now " + theme);
+    theme_select.value = theme;
+}
 
 async function addListeners() {
     console.log("we are in the function addListeners");
@@ -365,39 +412,7 @@ async function addListeners() {
     theme.addEventListener("change", () => {
         console.log("changed!! theme!!");
         let selected = theme.options[theme.selectedIndex].value;
-        let rootTheme = document.querySelector(':root') as HTMLHtmlElement;
-        switch(selected) {
-            case "defualt":
-                rootTheme.style.setProperty('--big_bg', "#0f0e13");
-                rootTheme.style.setProperty('--background', "#181922");
-                rootTheme.style.setProperty('--secondary', "#46383d");
-                rootTheme.style.setProperty('--fill_color', "#2a232e");
-                break;
-            case "miner":
-                rootTheme.style.setProperty('--big_bg', "#282828");
-                rootTheme.style.setProperty('--background', "#786f65");
-                rootTheme.style.setProperty('--secondary', "#8e8376");
-                rootTheme.style.setProperty('--fill_color', "#3b3836");
-                break;
-            case "vine":
-                rootTheme.style.setProperty('--big_bg', "#478e74");
-                rootTheme.style.setProperty('--background', "#446b6a");
-                rootTheme.style.setProperty('--secondary', "#404c53");
-                rootTheme.style.setProperty('--fill_color', "#31343e");
-                break;
-            case "autumn":
-                rootTheme.style.setProperty('--big_bg', "#061e3f");
-                rootTheme.style.setProperty('--background', "#261e3e");
-                rootTheme.style.setProperty('--secondary', "#451e3e");
-                rootTheme.style.setProperty('--fill_color', "#651e3f");
-                break;
-            case "lavender":
-                rootTheme.style.setProperty('--big_bg', "#2c2031");
-                rootTheme.style.setProperty('--background', "#31243d");
-                rootTheme.style.setProperty('--secondary', "#482261");
-                rootTheme.style.setProperty('--fill_color', "#6f5d97");
-                break;
-        }
+        changeTheme(selected);
     });
     let table = document.querySelector("table") as HTMLTableElement;
     let rowLength = table.rows.length;
