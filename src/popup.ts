@@ -368,30 +368,43 @@ async function changeTheme(theme: string) {
             rootTheme.style.setProperty('--background', "#181922");
             rootTheme.style.setProperty('--secondary', "#46383d");
             rootTheme.style.setProperty('--fill_color', "#2a232e");
+            rootTheme.style.setProperty('--text_color', "#f7f1cc")
             break;
         case "miner":
             rootTheme.style.setProperty('--big_bg', "#282828");
             rootTheme.style.setProperty('--background', "#786f65");
             rootTheme.style.setProperty('--secondary', "#8e8376");
             rootTheme.style.setProperty('--fill_color', "#3b3836");
+            rootTheme.style.setProperty('--text_color', "#f7f1cc")
             break;
         case "vine":
             rootTheme.style.setProperty('--big_bg', "#478e74");
             rootTheme.style.setProperty('--background', "#446b6a");
             rootTheme.style.setProperty('--secondary', "#404c53");
             rootTheme.style.setProperty('--fill_color', "#31343e");
+            rootTheme.style.setProperty('--text_color', "#f7f1cc")
             break;
         case "autumn":
             rootTheme.style.setProperty('--big_bg', "#061e3f");
             rootTheme.style.setProperty('--background', "#261e3e");
             rootTheme.style.setProperty('--secondary', "#451e3e");
             rootTheme.style.setProperty('--fill_color', "#651e3f");
+            rootTheme.style.setProperty('--text_color', "#f7f1cc")
+            
             break;
         case "lavender":
             rootTheme.style.setProperty('--big_bg', "#2c2031");
             rootTheme.style.setProperty('--background', "#31243d");
             rootTheme.style.setProperty('--secondary', "#482261");
             rootTheme.style.setProperty('--fill_color', "#6f5d97");
+            rootTheme.style.setProperty('--text_color', "#f7f1cc")
+            break;
+        case "valentine":
+            rootTheme.style.setProperty('--big_bg', "#c6332c");
+            rootTheme.style.setProperty('--background', "#e94682");
+            rootTheme.style.setProperty('--secondary', "#eca3ae");
+            rootTheme.style.setProperty('--fill_color', "#f0ede2");
+            rootTheme.style.setProperty('--text_color', "#954a36")
             break;
     }
     await chrome.storage.sync.set({ "theme" : theme });
