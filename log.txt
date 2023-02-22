@@ -1,3 +1,35 @@
+commit 74b12736e14c72d939aebf66bcaba553d3c58ac0
+Merge: 975c840 6f1d9aa
+Author: albert-abzalimov <=>
+Date:   Wed Feb 22 14:57:36 2023 -0500
+
+    Merge branch 'main' of https://github.com/TKDPenguin/Midyear2023
+
+commit 975c84088a196a4a0603ea341cfca679509b40e3
+Author: albert-abzalimov <=>
+Date:   Wed Feb 22 14:57:27 2023 -0500
+
+    trying icons and testing author
+
+commit 6f1d9aa23e2352344b9588d315bf5b4186b75863
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Tue Feb 14 09:06:12 2023 -0500
+
+    Added Valentines theme and made red wine into grape juice
+
+commit 717b985ac303f9f7a2b32c8c08ebd4d3ba1004dd
+Merge: 037a9ad ec0912a
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Mon Feb 13 17:43:15 2023 -0500
+
+    Merge branch 'main' of https://github.com/TKDPenguin/Midyear2023
+
+commit 037a9ad385f97d952529b6884830796355abe029
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Mon Feb 13 17:43:08 2023 -0500
+
+    Changed red theme to red wine
+
 commit ec0912a53f3158f5880998c0a6ca1caa59273a1f
 Author: = <=>
 Date:   Sat Feb 11 20:07:50 2023 -0500
