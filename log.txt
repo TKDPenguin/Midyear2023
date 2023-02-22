@@ -1,3 +1,182 @@
+commit ec0912a53f3158f5880998c0a6ca1caa59273a1f
+Author: = <=>
+Date:   Sat Feb 11 20:07:50 2023 -0500
+
+    Added theme to chrome's data
+
+commit b62b6ad66d155f82b6c4355dc6d22d56bab1a5df
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Fri Feb 10 13:48:55 2023 -0500
+
+    Added different themes
+
+commit bb51025c96b78523295973eb31fb8f81dbed768e
+Author: = <=>
+Date:   Fri Feb 10 08:25:26 2023 -0500
+
+    Changed theme to gruvbox inspired
+
+commit 06773784f7c4f0937728c3233a2257828f65f130
+Merge: 33f97ce 7c8ec95
+Author: = <=>
+Date:   Fri Feb 10 08:06:05 2023 -0500
+
+    Merge branch 'main' of https://github.com/TKDPenguin/Midyear2023
+
+commit 33f97ce1835870ed3aefaefa6c1ba09ffd11d6da
+Author: = <=>
+Date:   Fri Feb 10 08:05:57 2023 -0500
+
+    removed userSet compeltely
+
+commit 7c8ec9509da112e8fb06d278aaff7787c9a185c5
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Thu Feb 9 10:34:50 2023 -0500
+
+    Changed extension name to make it more professional
+
+commit ca673e50f9b39de3f310330d8b954af0e09e820d
+Merge: 4e64d15 3db6c51
+Author: = <=>
+Date:   Tue Feb 7 22:37:56 2023 -0500
+
+    resolved merge changes by just using mine
+
+commit 4e64d156674a7030ee4c344f3448fec1dd101712
+Author: = <=>
+Date:   Tue Feb 7 22:37:14 2023 -0500
+
+    Okay trying to merge
+
+commit e9fa2dd0f1e3fda93c44b12aac2e149207dbe90b
+Author: = <=>
+Date:   Tue Feb 7 22:36:35 2023 -0500
+
+    testing dont pul this
+
+commit dc8c7ab03f68fe7e1abb2a41cae0b681da8e946f
+Author: = <=>
+Date:   Tue Feb 7 22:27:07 2023 -0500
+
+    Fixed functions to work with new localData sort option
+
+commit 3db6c5148feecfc9425ecf7ceece063efddf35a5
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Tue Feb 7 10:35:25 2023 -0500
+
+    Adding resets the add bar and the correct assignment deletes
+
+commit 9e1ab73a93ef7f7f850a2a8a4189f6686068adb7
+Author: = <=>
+Date:   Tue Feb 7 07:48:41 2023 -0500
+
+    Fixed remove bug, TODO: refactor
+
+commit 4db0567affa789ca3229dd1beba933e41f1a294b
+Merge: 8b7b8b6 18fd802
+Author: = <=>
+Date:   Mon Feb 6 21:16:23 2023 -0500
+
+    Merge branch 'main' of https://github.com/TKDPenguin/Midyear2023
+
+commit 8b7b8b6211ec8976c8d5f98f601ad02b161be3c9
+Author: = <=>
+Date:   Mon Feb 6 21:09:16 2023 -0500
+
+    Fixed addTableRows not conforming to new sort and new COOLLOOORS
+
+commit 18fd8029e77d311522c9c406727382aaecea80ef
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Mon Feb 6 21:08:02 2023 -0500
+
+    finish merge
+
+commit 7b3e392e9cf85481cda51dbabafcbfa92a8b68b2
+Merge: 0c2cf4b 7ad5dda
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Mon Feb 6 21:07:48 2023 -0500
+
+    Merge branch 'main' of https://github.com/TKDPenguin/Midyear2023
+
+commit 0c2cf4bae1265af826ebdf0ef4221fbbef272827
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Mon Feb 6 21:03:47 2023 -0500
+
+    failed attempt at sorting by add order
+
+commit 7ad5dda1976510960cf3152d3f30f49f3a6bd443
+Author: = <=>
+Date:   Mon Feb 6 19:57:14 2023 -0500
+
+    removed UserSetLocalData and added sort option to localData in the beginning
+
+commit 4e52d73b5515bf0657e223b0a3946edb24271a47
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Fri Feb 3 10:46:06 2023 -0500
+
+    Date and priority auto sort and started working on sorting user set
+
+commit 758f8426abbf6ca3c1f851c95fb0a799953a10d7
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Thu Feb 2 10:40:54 2023 -0500
+
+    You can now sort by both date and priority
+
+commit fe58dd6ee066c74e0786f327ab55924f19e5f1e4
+Author: = <=>
+Date:   Wed Feb 1 08:13:28 2023 -0500
+
+    added priority to local data
+
+commit d22702f928b0daac6151bea29e5309f9dab874ea
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Tue Jan 31 11:29:17 2023 -0500
+
+    Priority gets added with new items. It doesn't change once set.
+
+commit ebb0b57f85ccb15b453c18ad9d9b4ebce17162ad
+Author: = <=>
+Date:   Tue Jan 31 08:49:16 2023 -0500
+
+    some nice polish
+
+commit 4b9bd4f8802f2d33b21513074426a3584780a546
+Author: = <=>
+Date:   Mon Jan 30 12:12:58 2023 -0500
+
+    Fixed chrome data not updating when removing localData
+
+commit 64ae391d0216ece962983ba95dc06730903cdab8
+Author: = <=>
+Date:   Mon Jan 30 11:57:29 2023 -0500
+
+    Added new row to html with your priority thing
+
+commit 5168e345e14f868880d574ebd399119f3efd17e8
+Merge: 47fc96b e091c70
+Author: = <=>
+Date:   Mon Jan 30 11:50:10 2023 -0500
+
+    Merge branch 'main' of https://github.com/TKDPenguin/Midyear2023
+
+commit 47fc96bd9a61810b17d19c963605d1163e945beb
+Author: = <=>
+Date:   Mon Jan 30 10:43:35 2023 -0500
+
+    Fixed weird issue with done
+
+commit e091c703bc5457b57c62684950f29192d02032e4
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Mon Jan 30 10:42:58 2023 -0500
+
+    Disabled scroll bars
+
+commit cfc8f0127cad4959e784211da7dbb619fa2d046f
+Author: Jacob Berger <tkdpenguin123@gmail.com>
+Date:   Mon Jan 30 10:36:52 2023 -0500
+
+    New assignments reset table & new priority setting
+
 commit a958c8ce04b23fdc36138825623322986bceeb35
 Author: = <=>
 Date:   Mon Jan 30 08:50:23 2023 -0500
